@@ -19,7 +19,8 @@ namespace ExpertSystem
            .GetProperty("DoubleBuffered",
               System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
            .SetValue(tableLayoutPanel1, true, null);
-            buildTable(15);
+            buildTable(5);
+            dimension.SelectedValue = 5;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -58,6 +59,7 @@ namespace ExpertSystem
             tableLayoutPanel1.Visible = false;
             RowStyle style = new RowStyle(SizeType.AutoSize);
             tableLayoutPanel1.RowStyles.Add(style);
+            tableLayoutPanel1.ColumnStyles[0] = new ColumnStyle(SizeType.Absolute, 200);
             //tableLayoutPanel1.VerticalScroll.Maximum = 200;
             const int NUMBER_OF_ADDITIONAL_COLS = 3;
             addColumns(n + NUMBER_OF_ADDITIONAL_COLS);
@@ -65,6 +67,7 @@ namespace ExpertSystem
             // build head
             Label localCriteria = new Label();
             localCriteria.Text = "Локальный критерий";
+            localCriteria.Width = 200;
 
             Label[] criterias = new Label[n];
             for (int i = 0; i < criterias.Length; i++)
