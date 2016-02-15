@@ -127,5 +127,15 @@ namespace ExpertSystem
                 BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
                 null, control, new object[] { true });
         }
+
+        private void dimension_SelectedValueChanged(object sender, EventArgs e)
+        {
+            tableLayoutPanel1.Controls.Clear();
+            tableLayoutPanel1.RowStyles.Clear();
+            tableLayoutPanel1.RowCount = 1;
+            tableLayoutPanel1.ColumnCount = 1;
+            int dim = Convert.ToInt32(dimension.SelectedItem);
+            buildTable(dim);
+        }
     }
 }

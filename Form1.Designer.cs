@@ -132,6 +132,7 @@
             this.dimension.Name = "dimension";
             this.dimension.Size = new System.Drawing.Size(121, 21);
             this.dimension.TabIndex = 1;
+            this.dimension.SelectedValueChanged += new System.EventHandler(this.dimension_SelectedValueChanged);
             // 
             // Form1
             // 
