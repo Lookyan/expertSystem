@@ -6,13 +6,13 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Reflection;
-using System.Resources;
 
 namespace ExpertSystem
 {
     public partial class Form1 : Form
     {
         private int currentDim;
+        private IDictionary<int, double> consistIndex = new Dictionary<int, double>();
 
         public Form1()
         {
@@ -22,14 +22,75 @@ namespace ExpertSystem
            .GetProperty("DoubleBuffered",
               System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
            .SetValue(tableLayoutPanel1, true, null);
-            buildTable(5);
-            dimension.SelectedValue = 5;
-            currentDim = 5;
+            const int startSize = 5;
+            buildTable(startSize);
+            dimension.SelectedValue = startSize;
+            currentDim = startSize;
+            consistIndex[3] = 0.58;
+            consistIndex[4] = 0.9;
+            consistIndex[5] = 1.12;
+            consistIndex[6] = 1.24;
+            consistIndex[7] = 1.32;
+            consistIndex[8] = 1.41;
+            consistIndex[9] = 1.45;
+            consistIndex[10] = 1.49;
+            consistIndex[11] = 1.51;
+            consistIndex[12] = 1.54;
+            consistIndex[13] = 1.56;
+            consistIndex[14] = 1.57;
+            consistIndex[15] = 1.58;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
+            // coef determing
+            double[] coefs = new double[currentDim];
+            double[] alphas = new double[currentDim];
+            double coefSum = 0;
+            for (int i = 0; i < currentDim; i++)
+            {
+                coefs[i] = 1;
+                for (int j = 0; j < currentDim; j++)
+                {
+                    try
+                    {
+                        coefs[i] *= getValue(i, j);
+                    }
+                    catch (FormatException)
+                    {
+                        MessageBox.Show("Матрица содержит недопустимые значения");
+                        return;
+                    }
+                }
+                coefs[i] = Math.Pow(coefs[i], 1.0 / currentDim);
+                coefSum += coefs[i];
+            }
+
+            for (int i = 0; i < currentDim; i++)
+            {
+                alphas[i] = coefs[i] / coefSum;
+            }
+
+            // set fields 
+
+            double lambdaMax = 0;
+            // check consistency
+            for (int i = 0; i < currentDim; i++)
+            {
+                double currentLambda = 0;
+                for (int j = 0; j < currentDim; j++)
+                {
+                    currentLambda += getValue(j, i);
+                }
+                currentLambda *= alphas[i];
+                lambdaMax += currentLambda;
+            }
+
+            double consistValue = (lambdaMax - currentDim) / ((currentDim - 1) * consistIndex[currentDim]);
+            if (consistValue > 0.1)
+            {
+                MessageBox.Show("Не согласована. Отношение согласованности: " + Convert.ToString(consistValue));
+            }
         }
 
         private int AddTableRow(List<Control> objs, int n)
@@ -177,6 +238,12 @@ namespace ExpertSystem
         {
             TextBox textBox = (TextBox) this.Controls.Find(Convert.ToString(row * currentDim + col), true)[0];
             textBox.Text = str;
+        }
+
+        private double getValue(int row, int col)
+        {
+            TextBox textBox = (TextBox)this.Controls.Find(Convert.ToString(row * currentDim + col), true)[0];
+            return Convert.ToDouble(textBox.Text);
         }
 
         private Pair<int, int> getCell(int num)

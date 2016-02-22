@@ -113,8 +113,6 @@
             this.dimension.FormatString = "N0";
             this.dimension.FormattingEnabled = true;
             this.dimension.Items.AddRange(new object[] {
-            "1",
-            "2",
             "3",
             "4",
             "5",
