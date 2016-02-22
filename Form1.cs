@@ -69,9 +69,10 @@ namespace ExpertSystem
             for (int i = 0; i < currentDim; i++)
             {
                 alphas[i] = coefs[i] / coefSum;
+                setAdditionalValue("coef" + i, coefs[i]);
+                setAdditionalValue("alpha" + i, alphas[i]);
             }
 
-            // set fields 
 
             double lambdaMax = 0;
             // check consistency
@@ -160,6 +161,7 @@ namespace ExpertSystem
             // build input rows:
 
             int k = 0;
+            int additionalColCount = 0;
 
             for(int i = 0; i < n; i++) 
             {
@@ -186,13 +188,16 @@ namespace ExpertSystem
                 TextBox coefTextBox = new TextBox();
                 coefTextBox.ReadOnly = true;
                 coefTextBox.TabStop = false;
+                coefTextBox.Name = "coef" + additionalColCount;
                 row.Add(coefTextBox);
                 TextBox alphaTextBox = new TextBox();
                 alphaTextBox.ReadOnly = true;
                 alphaTextBox.TabStop = false;
+                alphaTextBox.Name = "alpha" + additionalColCount;
                 row.Add(alphaTextBox);
 
                 AddTableRow(row, n);
+                additionalColCount++;
             }
 
             tableLayoutPanel1.Visible = true;
@@ -238,6 +243,12 @@ namespace ExpertSystem
         {
             TextBox textBox = (TextBox) this.Controls.Find(Convert.ToString(row * currentDim + col), true)[0];
             textBox.Text = str;
+        }
+
+        private void setAdditionalValue(string name, double value)
+        {
+            TextBox textBox = (TextBox) this.Controls.Find(name, true)[0];
+            textBox.Text = Convert.ToString(value);
         }
 
         private double getValue(int row, int col)
