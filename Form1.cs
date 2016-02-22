@@ -6,11 +6,14 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Reflection;
+using System.Resources;
 
 namespace ExpertSystem
 {
     public partial class Form1 : Form
     {
+        private int currentDim;
+
         public Form1()
         {
             InitializeComponent();
@@ -21,6 +24,7 @@ namespace ExpertSystem
            .SetValue(tableLayoutPanel1, true, null);
             buildTable(5);
             dimension.SelectedValue = 5;
+            currentDim = 5;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -56,6 +60,7 @@ namespace ExpertSystem
          */
         private void buildTable(int n)
         {
+            currentDim = n;
             tableLayoutPanel1.Visible = false;
             RowStyle style = new RowStyle(SizeType.AutoSize);
             tableLayoutPanel1.RowStyles.Add(style);
@@ -93,6 +98,8 @@ namespace ExpertSystem
 
             // build input rows:
 
+            int k = 0;
+
             for(int i = 0; i < n; i++) 
             {
                 List<Control> row = new List<Control>();
@@ -103,15 +110,25 @@ namespace ExpertSystem
                 for (int j = 0; j < n; j++)
                 {
                     TextBox txtbox = new TextBox();
+                    Pair<int, int> cell = getCell(k);
+                    if(cell.First < cell.Second)
+                    {
+                        txtbox.TabStop = false;
+                        txtbox.ReadOnly = true;
+                    }
+                    txtbox.Name = Convert.ToString(k++);
+                    txtbox.TextChanged += new System.EventHandler(this.handleTextChanged);
                     SetDoubleBuffered(txtbox);
                     row.Add(txtbox);
                 }
 
                 TextBox coefTextBox = new TextBox();
-                coefTextBox.Enabled = false;
+                coefTextBox.ReadOnly = true;
+                coefTextBox.TabStop = false;
                 row.Add(coefTextBox);
                 TextBox alphaTextBox = new TextBox();
-                alphaTextBox.Enabled = false;
+                alphaTextBox.ReadOnly = true;
+                alphaTextBox.TabStop = false;
                 row.Add(alphaTextBox);
 
                 AddTableRow(row, n);
@@ -137,5 +154,52 @@ namespace ExpertSystem
             int dim = Convert.ToInt32(dimension.SelectedItem);
             buildTable(dim);
         }
+
+        private void handleTextChanged(object sender, EventArgs e)
+        {
+            TextBox txtBox = sender as TextBox;
+            Pair<int, int> cell = getCell(Convert.ToInt32(txtBox.Name));
+            if (cell.First > cell.Second)
+            {
+                try
+                {
+                    double val = 1 / Convert.ToDouble(txtBox.Text);
+                    setValue(cell.First, cell.Second, Convert.ToString(val));
+                }
+                catch (FormatException)
+                {
+                    MessageBox.Show("Неверный формат");
+                }
+            }
+        }
+
+        private void setValue(int row, int col, string str)
+        {
+            TextBox textBox = (TextBox) this.Controls.Find(Convert.ToString(row * currentDim + col), true)[0];
+            textBox.Text = str;
+        }
+
+        private Pair<int, int> getCell(int num)
+        {
+            int col = num % currentDim;
+            int row = num / currentDim;
+            return new Pair<int, int>(col, row);
+        }
+    }
+
+    public class Pair<T, U>
+    {
+        public Pair()
+        {
+        }
+
+        public Pair(T first, U second)
+        {
+            this.First = first;
+            this.Second = second;
+        }
+
+        public T First { get; set; }
+        public U Second { get; set; }
     }
 }
