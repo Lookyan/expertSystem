@@ -46,6 +46,9 @@ namespace ExpertSystem
             // coef determing
             double[] coefs = new double[currentDim];
             double[] alphas = new double[currentDim];
+            double[] revs = new double[currentDim];
+            double[] lastRevs = new double[currentDim];
+
             double coefSum = 0;
             for (int i = 0; i < currentDim; i++)
             {
@@ -83,11 +86,29 @@ namespace ExpertSystem
                 {
                     currentLambda += getValue(j, i);
                 }
+                revs[i] = 1 / currentLambda;
+                setAdditionalValue("rev" + i, revs[i]);
+
+                // if last column
+                if(i == currentDim - 1)
+                {
+                    for (int l = 0; l < currentDim; l++)
+                    {
+                        lastRevs[l] = getValue(l, currentDim - 1) / currentLambda;
+                        setAdditionalValue("lastrev" + l, lastRevs[l]);
+                    }
+                }
                 currentLambda *= alphas[i];
                 lambdaMax += currentLambda;
             }
 
+            for (int i = 0; i < currentDim; i++)
+            {
+                setAdditionalValue("avg" + i, (alphas[i] + revs[i] + lastRevs[i]) / 3);
+            }
+
             double consistValue = (lambdaMax - currentDim) / ((currentDim - 1) * consistIndex[currentDim]);
+            cons.Text = Convert.ToString(consistValue);
             if (consistValue > 0.1)
             {
                 MessageBox.Show("Не согласована. Отношение согласованности: " + Convert.ToString(consistValue));
@@ -128,7 +149,7 @@ namespace ExpertSystem
             tableLayoutPanel1.RowStyles.Add(style);
             tableLayoutPanel1.ColumnStyles[0] = new ColumnStyle(SizeType.Absolute, 200);
             //tableLayoutPanel1.VerticalScroll.Maximum = 200;
-            const int NUMBER_OF_ADDITIONAL_COLS = 3;
+            const int NUMBER_OF_ADDITIONAL_COLS = 6;
             addColumns(n + NUMBER_OF_ADDITIONAL_COLS);
 
             // build head
@@ -150,11 +171,23 @@ namespace ExpertSystem
             Label alpha = new Label();
             alpha.Text = "alpha";
 
+            Label rev = new Label();
+            rev.Text = "alpha*";
+
+            Label lastRev = new Label();
+            lastRev.Text = "alpha**";
+
+            Label avg = new Label();
+            avg.Text = "alpha (average)";
+
             List<Control> head = new List<Control>();
             head.Add(localCriteria);
             head.AddRange(criterias);
             head.Add(coef);
             head.Add(alpha);
+            head.Add(rev);
+            head.Add(lastRev);
+            head.Add(avg);
 
             AddTableRow(head, n);
 
@@ -181,6 +214,10 @@ namespace ExpertSystem
                     }
                     txtbox.Name = Convert.ToString(k++);
                     txtbox.TextChanged += new System.EventHandler(this.handleTextChanged);
+                    if (i == j)
+                    {
+                        txtbox.Text = "1";
+                    }
                     SetDoubleBuffered(txtbox);
                     row.Add(txtbox);
                 }
@@ -195,6 +232,24 @@ namespace ExpertSystem
                 alphaTextBox.TabStop = false;
                 alphaTextBox.Name = "alpha" + additionalColCount;
                 row.Add(alphaTextBox);
+
+                TextBox revTextBox = new TextBox();
+                revTextBox.ReadOnly = true;
+                revTextBox.TabStop = false;
+                revTextBox.Name = "rev" + additionalColCount;
+                row.Add(revTextBox);
+
+                TextBox lastRevTextBox = new TextBox();
+                lastRevTextBox.ReadOnly = true;
+                lastRevTextBox.TabStop = false;
+                lastRevTextBox.Name = "lastrev" + additionalColCount;
+                row.Add(lastRevTextBox);
+
+                TextBox avgTextBox = new TextBox();
+                avgTextBox.ReadOnly = true;
+                avgTextBox.TabStop = false;
+                avgTextBox.Name = "avg" + additionalColCount;
+                row.Add(avgTextBox);
 
                 AddTableRow(row, n);
                 additionalColCount++;
@@ -224,6 +279,10 @@ namespace ExpertSystem
         private void handleTextChanged(object sender, EventArgs e)
         {
             TextBox txtBox = sender as TextBox;
+            if (txtBox.Text == "")
+            {
+                return;
+            }
             Pair<int, int> cell = getCell(Convert.ToInt32(txtBox.Name));
             if (cell.First > cell.Second)
             {
@@ -242,12 +301,13 @@ namespace ExpertSystem
         private void setValue(int row, int col, string str)
         {
             TextBox textBox = (TextBox) this.Controls.Find(Convert.ToString(row * currentDim + col), true)[0];
-            textBox.Text = str;
+            textBox.Text = Convert.ToString(Math.Round(Convert.ToDouble(str), 5));
         }
 
         private void setAdditionalValue(string name, double value)
         {
             TextBox textBox = (TextBox) this.Controls.Find(name, true)[0];
+            value = Math.Round(value, 5);
             textBox.Text = Convert.ToString(value);
         }
 
