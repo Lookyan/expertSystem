@@ -36,10 +36,15 @@
             this.dimension = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.cons = new System.Windows.Forms.Label();
+            this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+            this.roundNum = new System.Windows.Forms.NumericUpDown();
+            this.label3 = new System.Windows.Forms.Label();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
+            this.flowLayoutPanel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.roundNum)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -59,7 +64,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(33, 73);
+            this.button1.Location = new System.Drawing.Point(239, 73);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 1;
@@ -88,12 +93,13 @@
             // 
             // flowLayoutPanel1
             // 
+            this.flowLayoutPanel1.Controls.Add(this.flowLayoutPanel2);
             this.flowLayoutPanel1.Controls.Add(this.label1);
             this.flowLayoutPanel1.Controls.Add(this.dimension);
             this.flowLayoutPanel1.Controls.Add(this.button1);
             this.flowLayoutPanel1.Controls.Add(this.label2);
             this.flowLayoutPanel1.Controls.Add(this.cons);
-            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Left;
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(30, 30, 3, 3);
@@ -105,7 +111,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(33, 30);
+            this.label1.Location = new System.Drawing.Point(239, 30);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(123, 13);
             this.label1.TabIndex = 0;
@@ -130,7 +136,7 @@
             "13",
             "14",
             "15"});
-            this.dimension.Location = new System.Drawing.Point(33, 46);
+            this.dimension.Location = new System.Drawing.Point(239, 46);
             this.dimension.Name = "dimension";
             this.dimension.Size = new System.Drawing.Size(121, 21);
             this.dimension.TabIndex = 1;
@@ -139,7 +145,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(33, 99);
+            this.label2.Location = new System.Drawing.Point(239, 99);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(96, 13);
             this.label2.TabIndex = 2;
@@ -148,11 +154,48 @@
             // cons
             // 
             this.cons.AutoSize = true;
-            this.cons.Location = new System.Drawing.Point(33, 112);
+            this.cons.Location = new System.Drawing.Point(239, 112);
             this.cons.Name = "cons";
             this.cons.Size = new System.Drawing.Size(13, 13);
             this.cons.TabIndex = 3;
             this.cons.Text = "0";
+            // 
+            // flowLayoutPanel2
+            // 
+            this.flowLayoutPanel2.Controls.Add(this.label3);
+            this.flowLayoutPanel2.Controls.Add(this.roundNum);
+            this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(33, 33);
+            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(200, 100);
+            this.flowLayoutPanel2.TabIndex = 4;
+            // 
+            // roundNum
+            // 
+            this.roundNum.Location = new System.Drawing.Point(3, 16);
+            this.roundNum.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.roundNum.Name = "roundNum";
+            this.roundNum.Size = new System.Drawing.Size(120, 20);
+            this.roundNum.TabIndex = 0;
+            this.roundNum.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.roundNum.ValueChanged += new System.EventHandler(this.roundNum_ValueChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(3, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(54, 13);
+            this.label3.TabIndex = 1;
+            this.label3.Text = "Точность";
             // 
             // Form1
             // 
@@ -168,6 +211,9 @@
             this.splitContainer1.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
+            this.flowLayoutPanel2.ResumeLayout(false);
+            this.flowLayoutPanel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.roundNum)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -182,6 +228,9 @@
         private System.Windows.Forms.ComboBox dimension;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label cons;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.NumericUpDown roundNum;
     }
 }
 

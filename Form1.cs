@@ -13,6 +13,7 @@ namespace ExpertSystem
     {
         private int currentDim;
         private IDictionary<int, double> consistIndex = new Dictionary<int, double>();
+        private int roundVal = 5;
 
         public Form1()
         {
@@ -48,6 +49,8 @@ namespace ExpertSystem
             double[] alphas = new double[currentDim];
             double[] revs = new double[currentDim];
             double[] lastRevs = new double[currentDim];
+            double[] sums = new double[currentDim];
+            double fullSum = 0;
 
             double coefSum = 0;
             for (int i = 0; i < currentDim; i++)
@@ -82,12 +85,18 @@ namespace ExpertSystem
             for (int i = 0; i < currentDim; i++)
             {
                 double currentLambda = 0;
+                sums[i] = 0;
                 for (int j = 0; j < currentDim; j++)
                 {
                     currentLambda += getValue(j, i);
+                    sums[i] += getValue(i, j);
                 }
+                fullSum += sums[i];
+
                 revs[i] = 1 / currentLambda;
                 setAdditionalValue("rev" + i, revs[i]);
+
+                setAdditionalValue("sum" + i, sums[i]);
 
                 // if last column
                 if(i == currentDim - 1)
@@ -105,6 +114,11 @@ namespace ExpertSystem
             for (int i = 0; i < currentDim; i++)
             {
                 setAdditionalValue("avg" + i, (alphas[i] + revs[i] + lastRevs[i]) / 3);
+            }
+
+            for (int i = 0; i < currentDim; i++)
+            {
+                setAdditionalValue("sumDivAll" + i, sums[i] / fullSum);
             }
 
             double consistValue = (lambdaMax - currentDim) / ((currentDim - 1) * consistIndex[currentDim]);
@@ -149,7 +163,7 @@ namespace ExpertSystem
             tableLayoutPanel1.RowStyles.Add(style);
             tableLayoutPanel1.ColumnStyles[0] = new ColumnStyle(SizeType.Absolute, 200);
             //tableLayoutPanel1.VerticalScroll.Maximum = 200;
-            const int NUMBER_OF_ADDITIONAL_COLS = 6;
+            const int NUMBER_OF_ADDITIONAL_COLS = 8;
             addColumns(n + NUMBER_OF_ADDITIONAL_COLS);
 
             // build head
@@ -180,6 +194,12 @@ namespace ExpertSystem
             Label avg = new Label();
             avg.Text = "alpha (average)";
 
+            Label sum = new Label();
+            sum.Text = "Row sum";
+
+            Label sumDivAll = new Label();
+            sumDivAll.Text = "Row sum / whole sum";
+
             List<Control> head = new List<Control>();
             head.Add(localCriteria);
             head.AddRange(criterias);
@@ -188,6 +208,8 @@ namespace ExpertSystem
             head.Add(rev);
             head.Add(lastRev);
             head.Add(avg);
+            head.Add(sum);
+            head.Add(sumDivAll);
 
             AddTableRow(head, n);
 
@@ -251,6 +273,18 @@ namespace ExpertSystem
                 avgTextBox.Name = "avg" + additionalColCount;
                 row.Add(avgTextBox);
 
+                TextBox sumTextBox = new TextBox();
+                sumTextBox.ReadOnly = true;
+                sumTextBox.TabStop = false;
+                sumTextBox.Name = "sum" + additionalColCount;
+                row.Add(sumTextBox);
+
+                TextBox sumDivAllTextBox = new TextBox();
+                sumDivAllTextBox.ReadOnly = true;
+                sumDivAllTextBox.TabStop = false;
+                sumDivAllTextBox.Name = "sumDivAll" + additionalColCount;
+                row.Add(sumDivAllTextBox);
+
                 AddTableRow(row, n);
                 additionalColCount++;
             }
@@ -301,13 +335,13 @@ namespace ExpertSystem
         private void setValue(int row, int col, string str)
         {
             TextBox textBox = (TextBox) this.Controls.Find(Convert.ToString(row * currentDim + col), true)[0];
-            textBox.Text = Convert.ToString(Math.Round(Convert.ToDouble(str), 5));
+            textBox.Text = Convert.ToString(Math.Round(Convert.ToDouble(str), roundVal));
         }
 
         private void setAdditionalValue(string name, double value)
         {
             TextBox textBox = (TextBox) this.Controls.Find(name, true)[0];
-            value = Math.Round(value, 5);
+            value = Math.Round(value, roundVal);
             textBox.Text = Convert.ToString(value);
         }
 
@@ -322,6 +356,11 @@ namespace ExpertSystem
             int col = num % currentDim;
             int row = num / currentDim;
             return new Pair<int, int>(col, row);
+        }
+
+        private void roundNum_ValueChanged(object sender, EventArgs e)
+        {
+            roundVal = Convert.ToInt32(roundNum.Value);
         }
     }
 
