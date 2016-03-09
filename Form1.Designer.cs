@@ -32,19 +32,23 @@
             this.button1 = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+            this.label3 = new System.Windows.Forms.Label();
+            this.roundNum = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.dimension = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.cons = new System.Windows.Forms.Label();
-            this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
-            this.roundNum = new System.Windows.Forms.NumericUpDown();
-            this.label3 = new System.Windows.Forms.Label();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.информацияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.оПрограммеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.roundNum)).BeginInit();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -58,7 +62,7 @@
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(769, 281);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(769, 266);
             this.tableLayoutPanel1.TabIndex = 0;
             this.tableLayoutPanel1.Visible = false;
             // 
@@ -75,7 +79,7 @@
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 24);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -87,8 +91,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.flowLayoutPanel1);
-            this.splitContainer1.Size = new System.Drawing.Size(769, 461);
-            this.splitContainer1.SplitterDistance = 281;
+            this.splitContainer1.Size = new System.Drawing.Size(769, 437);
+            this.splitContainer1.SplitterDistance = 266;
             this.splitContainer1.TabIndex = 2;
             // 
             // flowLayoutPanel1
@@ -105,8 +109,45 @@
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(30, 30, 3, 3);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(30);
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(769, 176);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(769, 167);
             this.flowLayoutPanel1.TabIndex = 2;
+            // 
+            // flowLayoutPanel2
+            // 
+            this.flowLayoutPanel2.Controls.Add(this.label3);
+            this.flowLayoutPanel2.Controls.Add(this.roundNum);
+            this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(33, 33);
+            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(200, 100);
+            this.flowLayoutPanel2.TabIndex = 4;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(3, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(54, 13);
+            this.label3.TabIndex = 1;
+            this.label3.Text = "Точность";
+            // 
+            // roundNum
+            // 
+            this.roundNum.Location = new System.Drawing.Point(3, 16);
+            this.roundNum.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.roundNum.Name = "roundNum";
+            this.roundNum.Size = new System.Drawing.Size(120, 20);
+            this.roundNum.TabIndex = 0;
+            this.roundNum.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.roundNum.ValueChanged += new System.EventHandler(this.roundNum_ValueChanged);
             // 
             // label1
             // 
@@ -160,42 +201,30 @@
             this.cons.TabIndex = 3;
             this.cons.Text = "0";
             // 
-            // flowLayoutPanel2
+            // menuStrip1
             // 
-            this.flowLayoutPanel2.Controls.Add(this.label3);
-            this.flowLayoutPanel2.Controls.Add(this.roundNum);
-            this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(33, 33);
-            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(200, 100);
-            this.flowLayoutPanel2.TabIndex = 4;
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.информацияToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(769, 24);
+            this.menuStrip1.TabIndex = 3;
+            this.menuStrip1.Text = "menuStrip1";
             // 
-            // roundNum
+            // информацияToolStripMenuItem
             // 
-            this.roundNum.Location = new System.Drawing.Point(3, 16);
-            this.roundNum.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.roundNum.Name = "roundNum";
-            this.roundNum.Size = new System.Drawing.Size(120, 20);
-            this.roundNum.TabIndex = 0;
-            this.roundNum.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.roundNum.ValueChanged += new System.EventHandler(this.roundNum_ValueChanged);
+            this.информацияToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.оПрограммеToolStripMenuItem});
+            this.информацияToolStripMenuItem.Name = "информацияToolStripMenuItem";
+            this.информацияToolStripMenuItem.Size = new System.Drawing.Size(93, 20);
+            this.информацияToolStripMenuItem.Text = "Информация";
             // 
-            // label3
+            // оПрограммеToolStripMenuItem
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(54, 13);
-            this.label3.TabIndex = 1;
-            this.label3.Text = "Точность";
+            this.оПрограммеToolStripMenuItem.Name = "оПрограммеToolStripMenuItem";
+            this.оПрограммеToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.оПрограммеToolStripMenuItem.Text = "О программе";
+            this.оПрограммеToolStripMenuItem.Click += new System.EventHandler(this.оПрограммеToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -203,6 +232,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(769, 461);
             this.Controls.Add(this.splitContainer1);
+            this.Controls.Add(this.menuStrip1);
             this.Name = "Form1";
             this.Text = "ExpertSystem";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -214,7 +244,10 @@
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.roundNum)).EndInit();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -231,6 +264,9 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.NumericUpDown roundNum;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem информацияToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem оПрограммеToolStripMenuItem;
     }
 }
 

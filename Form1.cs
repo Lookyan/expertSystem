@@ -362,6 +362,11 @@ namespace ExpertSystem
         {
             roundVal = Convert.ToInt32(roundNum.Value);
         }
+
+        private void оПрограммеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Автор: Лукьянченко Александр");
+        }
     }
 
     public class Pair<T, U>
